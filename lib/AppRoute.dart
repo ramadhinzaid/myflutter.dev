@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zaid_study/animation_route.dart';
+import 'package:zaid_study/focus-image/focus_image.dart';
 import 'package:zaid_study/forms/form_login.dart';
 import 'package:zaid_study/main.dart';
 import 'package:zaid_study/paralax/ParalaxHome.dart';
@@ -59,6 +60,11 @@ class MyAppRoute {
       case '/login':
         return rightleftRoute(
           FormLogin(),
+        );
+        break;
+      case '/focusimage':
+        return rightleftRoute(
+          BasePage(),
         );
         break;
       default:

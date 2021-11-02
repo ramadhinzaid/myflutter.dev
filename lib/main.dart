@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               onTap: () => Navigator.of(context).pushNamed('/paralax'),
               leading: FlutterLogo(),
-              title: Text("Paralax Scroll"),
+              title: Text("Parallax Scroll"),
             ),
             ListTile(
               onTap: () => Navigator.of(context).pushNamed('/camerafilter'),
@@ -82,6 +82,11 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () => Navigator.of(context).pushNamed('/login'),
               leading: FlutterLogo(),
               title: Text("Form Login"),
+            ),
+            ListTile(
+              onTap: () => Navigator.of(context).pushNamed('/focusimage'),
+              leading: FlutterLogo(),
+              title: Text("Focus Image"),
             )
           ],
         ),

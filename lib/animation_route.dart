@@ -105,3 +105,32 @@ Route scaleRoute(page) {
     },
   );
 }
+
+Route focusImage(parentContext, page) {
+  return PageRouteBuilder(
+    transitionDuration: Duration(milliseconds: 500),
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var rectAnimation = _imageTween(parentContext)
+          .chain(CurveTween(curve: Curves.ease))
+          .animate(animation);
+      return Stack(
+        children: [
+          PositionedTransition(rect: rectAnimation, child: child),
+        ],
+      );
+    },
+  );
+}
+
+Tween<RelativeRect> _imageTween(BuildContext context) {
+  var windowSize = MediaQuery.of(context).size;
+  var box = context.findRenderObject() as RenderBox;
+  var rect = box.localToGlobal(Offset.zero) & box.size;
+  var relativeRect = RelativeRect.fromSize(rect, windowSize);
+
+  return RelativeRectTween(
+    begin: relativeRect,
+    end: RelativeRect.fill,
+  );
+}
