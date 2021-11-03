@@ -17,6 +17,8 @@ class _FormLoginState extends State<FormLogin> {
   double _passwordStrength = 0;
   String _passwordStrengthStatus = "Weak";
   Color _passwordStrengthColor = Colors.blue;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isLoading = false;
 
   //form progress bar
   void _updateFormProgress() {
@@ -93,146 +95,169 @@ class _FormLoginState extends State<FormLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
-            child: _loginForm(),
+            child: _loginForm(context),
           ),
         ),
       ),
     );
   }
 
-  Widget _loginForm() {
+  Widget _loginForm(parentContext) {
     return Form(
-        onChanged: _updateFormProgress,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedProgressIndicator(value: _formProgress),
-            Padding(
-              padding: const EdgeInsets.only(top: 18.0),
-              child: Text(
-                "Login Here",
-                style: TextStyle(
-                    fontSize: 32,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500),
-              ),
+      onChanged: _updateFormProgress,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedProgressIndicator(value: _formProgress),
+          Padding(
+            padding: const EdgeInsets.only(top: 18.0),
+            child: Text(
+              "Login Here",
+              style: TextStyle(
+                  fontSize: 32,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w500),
             ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _usernameTextController,
-                decoration: InputDecoration(
-                  hintText: 'Username',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5.0),
-                    ),
-                    borderSide:
-                        BorderSide(color: Color(0xFFF2F4FA), width: 1.0),
-                    // borderSide: BorderSide.none
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextFormField(
+              controller: _usernameTextController,
+              decoration: InputDecoration(
+                hintText: 'Username',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5.0),
                   ),
+                  borderSide: BorderSide(color: Color(0xFFF2F4FA), width: 1.0),
+                  // borderSide: BorderSide.none
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                    onChanged: _onChange,
-                    obscureText: _passwordHide,
-                    controller: _passwordTextController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5.0),
-                        ),
-                        borderSide:
-                            BorderSide(color: Color(0xFFF2F4FA), width: 1.0),
-                        // borderSide: BorderSide.none
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                TextFormField(
+                  onChanged: _onChange,
+                  obscureText: _passwordHide,
+                  controller: _passwordTextController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5.0),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5.0),
-                        ),
-                        // borderSide: BorderSide.none,
-                        borderSide: BorderSide(
-                            color: _passwordStrengthColor, width: 2.0),
+                      borderSide:
+                          BorderSide(color: Color(0xFFF2F4FA), width: 1.0),
+                      // borderSide: BorderSide.none
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5.0),
                       ),
-                      hintText: 'Password',
-                      suffixIcon: IconButton(
-                        onPressed: () => setState(() {
-                          _passwordHide = !_passwordHide;
+                      // borderSide: BorderSide.none,
+                      borderSide:
+                          BorderSide(color: _passwordStrengthColor, width: 2.0),
+                    ),
+                    hintText: 'Password',
+                    suffixIcon: IconButton(
+                      onPressed: () => setState(() {
+                        _passwordHide = !_passwordHide;
+                      }),
+                      icon: Icon(
+                        Icons.remove_red_eye,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(_passwordStrengthStatus),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 8.0),
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //           child: AnimatedProgressIndicator(
+                //               value: _passwordStrength)),
+                //       Padding(
+                //         padding: const EdgeInsets.only(left: 16.0),
+                //         child: Text(_passwordStrengthStatus),
+                //       )
+                //     ],
+                //   ),
+                // )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith(
+                    (Set<MaterialState> states) {
+                  return states.contains(MaterialState.disabled)
+                      ? null
+                      : Colors.white;
+                }),
+                side: MaterialStateProperty.resolveWith(
+                    (Set<MaterialState> states) {
+                  return states.contains(MaterialState.disabled)
+                      ? BorderSide(color: Colors.grey)
+                      : BorderSide(color: Colors.blue);
+                }),
+                backgroundColor: MaterialStateProperty.resolveWith(
+                    (Set<MaterialState> states) {
+                  return states.contains(MaterialState.disabled)
+                      ? null
+                      : Colors.blue;
+                }),
+              ),
+              onPressed: _formProgress == 1 &&
+                      _passwordStrengthStatus == "Strong"
+                  ? () => {
+                        setState(() {
+                          _isLoading = true;
                         }),
-                        icon: Icon(
-                          Icons.remove_red_eye,
-                          color: Colors.grey,
+                        Future.delayed(Duration(seconds: 5)).then((value) => {
+                              _scaffoldKey.currentState.showSnackBar(
+                                SnackBar(
+                                  content: Text("Login Succes"),
+                                ),
+                              ),
+                              setState(() {
+                                _isLoading = false;
+                              }),
+                            })
+                      }
+                  : null,
+              child: Container(
+                height: 42,
+                width: double.infinity,
+                child: Center(
+                  child: _isLoading
+                      ? CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        )
+                      : Text(
+                          'Login',
+                          style: TextStyle(fontSize: 21),
                         ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(_passwordStrengthStatus),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 8.0),
-                  //   child: Row(
-                  //     children: [
-                  //       Expanded(
-                  //           child: AnimatedProgressIndicator(
-                  //               value: _passwordStrength)),
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 16.0),
-                  //         child: Text(_passwordStrengthStatus),
-                  //       )
-                  //     ],
-                  //   ),
-                  // )
-                ],
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> states) {
-                    return states.contains(MaterialState.disabled)
-                        ? null
-                        : Colors.white;
-                  }),
-                  side: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> states) {
-                    return states.contains(MaterialState.disabled)
-                        ? BorderSide(color: Colors.grey)
-                        : BorderSide(color: Colors.blue);
-                  }),
-                  backgroundColor: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> states) {
-                    return states.contains(MaterialState.disabled)
-                        ? null
-                        : Colors.blue;
-                  }),
-                ),
-                onPressed: _formProgress == 1 ? () => print('Success') : null,
-                child: Container(
-                  height: 42,
-                  width: double.infinity,
-                  child: Center(
-                    child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 21),
-                    ),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ));
+          )
+        ],
+      ),
+    );
   }
 }

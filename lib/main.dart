@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:zaid_study/AppRoute.dart';
 
 void main() {
@@ -11,6 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      supportedLocales: [const Locale('id')],
+      locale: const Locale('id'),
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -87,6 +91,11 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () => Navigator.of(context).pushNamed('/focusimage'),
               leading: FlutterLogo(),
               title: Text("Focus Image"),
+            ),
+            ListTile(
+              onTap: () => Navigator.of(context).pushNamed('/date'),
+              leading: FlutterLogo(),
+              title: Text("Date Picker"),
             )
           ],
         ),

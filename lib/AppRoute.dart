@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zaid_study/animation_route.dart';
+import 'package:zaid_study/date-picker/date_picker_home.dart';
 import 'package:zaid_study/focus-image/focus_image.dart';
 import 'package:zaid_study/forms/form_login.dart';
 import 'package:zaid_study/main.dart';
@@ -65,6 +66,11 @@ class MyAppRoute {
       case '/focusimage':
         return rightleftRoute(
           BasePage(),
+        );
+        break;
+      case '/date':
+        return rightleftRoute(
+          DateHome(),
         );
         break;
       default:
