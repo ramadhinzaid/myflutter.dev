@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:route_animation/route_animation.dart';
 import 'package:zaid_study/animation_route.dart';
 import 'package:zaid_study/date-picker/date_picker_home.dart';
+import 'package:zaid_study/drawer/index.dart';
 import 'package:zaid_study/focus-image/focus_image.dart';
 import 'package:zaid_study/forms/form_login.dart';
+import 'package:zaid_study/getAPIbloc/views/getAlbumView.dart';
 import 'package:zaid_study/main.dart';
 import 'package:zaid_study/paralax/ParalaxHome.dart';
 import 'package:zaid_study/photo-filter/home_photo_filter.dart';
@@ -44,7 +47,7 @@ class MyAppRoute {
         );
         break;
       case '/routeanimation':
-        return rightleftRoute(
+        return AnimateRoute.scaleRoute(
           RouteAnimation(),
         );
         break;
@@ -56,6 +59,11 @@ class MyAppRoute {
       case '/fetchdata':
         return rightleftRoute(
           FetchData(),
+        );
+        break;
+      case '/fetchdatabloc':
+        return rightleftRoute(
+          AlbumView(),
         );
         break;
       case '/login':
@@ -71,6 +79,11 @@ class MyAppRoute {
       case '/date':
         return rightleftRoute(
           DateHome(),
+        );
+        break;
+      case '/drawer':
+        return rightleftRoute(
+          DrawerHome(),
         );
         break;
       default:
