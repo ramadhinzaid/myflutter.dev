@@ -17,6 +17,11 @@ class HomeData extends StatelessWidget {
               leading: FlutterLogo(),
               title: Text("Fetch Data From Internet"),
             ),
+            ListTile(
+              onTap: () => Navigator.of(context).pushNamed('/fetchdatabloc'),
+              leading: FlutterLogo(),
+              title: Text("Fetch Data From Internet Using Bloc"),
+            ),
           ],
         ),
       ),

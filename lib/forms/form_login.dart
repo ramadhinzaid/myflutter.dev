@@ -228,7 +228,7 @@ class _FormLoginState extends State<FormLogin> {
                           _isLoading = true;
                         }),
                         Future.delayed(Duration(seconds: 5)).then((value) => {
-                              _scaffoldKey.currentState.showSnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text("Login Succes"),
                                 ),

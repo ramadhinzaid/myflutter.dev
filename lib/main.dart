@@ -36,68 +36,86 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool drwrOpen = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      endDrawer: Drawer(
+        child: Text("Halo"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/paralax'),
-              leading: FlutterLogo(),
-              title: Text("Parallax Scroll"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/camerafilter'),
-              leading: FlutterLogo(),
-              title: Text("Camera Filter"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/photofilter'),
-              leading: FlutterLogo(),
-              title: Text("Photo Filter"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context)
-                  .pushNamed('/routemsg', arguments: "Route With Message"),
-              leading: FlutterLogo(),
-              title: Text("Route With Message"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/routeanimation'),
-              leading: FlutterLogo(),
-              title: Text("Route With Animation"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/routeanimations'),
-              leading: FlutterLogo(),
-              title: Text("Route 404"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/datamanajemen'),
-              leading: FlutterLogo(),
-              title: Text("Data Manajemen"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/login'),
-              leading: FlutterLogo(),
-              title: Text("Form Login"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/focusimage'),
-              leading: FlutterLogo(),
-              title: Text("Focus Image"),
-            ),
-            ListTile(
-              onTap: () => Navigator.of(context).pushNamed('/date'),
-              leading: FlutterLogo(),
-              title: Text("Date Picker"),
-            )
-          ],
+      onEndDrawerChanged: (drawerState) => setState(() {
+        drwrOpen = drawerState;
+      }),
+      drawerEdgeDragWidth: 20,
+      appBar: AppBar(
+        title: Text(drwrOpen ? widget.title : "Tidak"),
+      ),
+      body: Container(
+        margin:
+            drwrOpen ? EdgeInsets.only(right: 40) : EdgeInsets.only(right: 0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/paralax'),
+                leading: FlutterLogo(),
+                title: Text("Parallax Scroll"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/camerafilter'),
+                leading: FlutterLogo(),
+                title: Text("Camera Filter"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/photofilter'),
+                leading: FlutterLogo(),
+                title: Text("Photo Filter"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context)
+                    .pushNamed('/routemsg', arguments: "Route With Message"),
+                leading: FlutterLogo(),
+                title: Text("Route With Message"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/routeanimation'),
+                leading: FlutterLogo(),
+                title: Text("Route With Animation"),
+              ),
+              ListTile(
+                onTap: () =>
+                    Navigator.of(context).pushNamed('/routeanimations'),
+                leading: FlutterLogo(),
+                title: Text("Route 404"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/datamanajemen'),
+                leading: FlutterLogo(),
+                title: Text("Data Manajemen"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/login'),
+                leading: FlutterLogo(),
+                title: Text("Form Login"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/focusimage'),
+                leading: FlutterLogo(),
+                title: Text("Focus Image"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/date'),
+                leading: FlutterLogo(),
+                title: Text("Date Picker"),
+              ),
+              ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/drawer'),
+                leading: FlutterLogo(),
+                title: Text("Drawer"),
+              )
+            ],
+          ),
         ),
       ),
     );

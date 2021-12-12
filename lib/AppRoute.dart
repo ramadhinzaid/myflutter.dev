@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zaid_study/animation_route.dart';
 import 'package:zaid_study/date-picker/date_picker_home.dart';
+import 'package:zaid_study/drawer/mydrawers.dart';
 import 'package:zaid_study/focus-image/focus_image.dart';
 import 'package:zaid_study/forms/form_login.dart';
 import 'package:zaid_study/main.dart';
@@ -20,59 +21,63 @@ class MyAppRoute {
         return MaterialPageRoute(
           builder: (_) => MyHomePage(),
         );
-        break;
+
       case '/paralax':
         return MaterialPageRoute(
           builder: (_) => ParalaxHome(),
         );
-        break;
+
       case '/camerafilter':
         return MaterialPageRoute(
           builder: (_) => CameraScreen(),
         );
-        break;
+
       case '/photofilter':
         return MaterialPageRoute(
           builder: (_) => HomePhotoFilter(),
         );
-        break;
+
       case '/routemsg':
         return MaterialPageRoute(
           builder: (_) => RouteMessage(
             title: routeSettings.arguments,
           ),
         );
-        break;
+
       case '/routeanimation':
         return rightleftRoute(
           RouteAnimation(),
         );
-        break;
+
       case '/datamanajemen':
         return rightleftRoute(
           HomeData(),
         );
-        break;
+
       case '/fetchdata':
         return rightleftRoute(
           FetchData(),
         );
-        break;
+
       case '/login':
         return rightleftRoute(
           FormLogin(),
         );
-        break;
+
       case '/focusimage':
         return rightleftRoute(
           BasePage(),
         );
-        break;
+
       case '/date':
         return rightleftRoute(
           DateHome(),
         );
-        break;
+      case '/drawer':
+        return rightleftRoute(
+          MyDrawer(),
+        );
+
       default:
         return scaleRoute(Route404());
     }
